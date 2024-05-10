@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Group Chat</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-ZJqbQMcw5P7gWnA/Cjn0e0eZ7Q6/AKmuZb30MJpAuMw=" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" integrity="sha256-ZJqbQMcw5P7gWnA/Cjn0e0eZ7Q6/AKmuZb30MJpAuMw=" crossorigin="anonymous"></script>
+
+	<style>
+		/* Styling the navbar */
+		.navbar {
+			background-color: #f8f9fa;
+			padding: 0.5rem 1rem;
+		}
+
+		.navbar-brand {
+			font-weight: bold;
+		}
+
+		.navbar-toggler {
+			border: none;
+			background-color: #f8f9fa;
+		}
+
+		.navbar-toggler-icon {
+			background-image: url("https://static.vecteezy.com/system/resources/previews/006/086/198/original/notification-icon-for-web-vector.jpg");
+		}
+
+		.navbar-nav .nav-item {
+			margin-right: 0.5rem;
+		}
+
+		.nav-link {
+			color: #000;
+		}
+
+		.nav-link:hover {
+			color: #0069d9;
+		}
+
+		.dropdown-menu {
+			background-color: #fff;
+		}
+
+		.dropdown-item {
+			color: #000;
+		}
+
+		.dropdown-item:hover {
+			background-color: #f8f9fa;
+			color: #000;
+		}
+
+		.input-group {
+			width: 30rem;
+		}
+
+		.form-control {
+			border-radius: 1;
+		}
+
+		.btn-secondary {
+			border-radius: 0;
+		}
+
+		.navbar-nav .nav-item:last-child .nav-link {
+			margin-right: 0;
+		}
+
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			background-color: #7c7c7c;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column-reverse;
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #ffffff;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+			overflow-y: auto;
+			height: calc(100vh - 170px);
+		}
+		
+		.input-container {
+			padding: 10px;
+			background-color: #f1f1f1;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+		}
+
+		.input-container form {
+			display: flex;
+		}
+
+		.input-container input[type="text"] {
+			flex: 1;
+			padding: 10px;
+			border: none;
+			border-radius: 5px;
+		}
+
+		.input-container button {
+			padding: 10px;
+			margin-left: 10px;
+			border: none;
+			border-radius: 5px;
+			background-color: #4CAF50;
+			color: white;
+			cursor: pointer;
+		}
+
+		.message {
+			margin-bottom: 10px;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.message .name {
+			font-weight: bold;
+			margin-right: 10px;
+			color: #000000;
+		}
+
+		.message .text {
+			margin-left: 5px;
+			color: #ffffff;
+		}
+
+		.message .time {
+			margin-left: 10px;
+			font-size: 12px;
+			color: #999;
+		}
+
+		.sent {
+			align-self: flex-end;
+			background-color: #00373b;
+			border-radius: 10px;
+			padding: 10px;
+			max-width: 60%;
+		}
+
+		.received {
+			align-self: flex-start;
+			background-color: #5f5858;
+			border-radius: 10px;
+			padding: 10px;
+			max-width: 60%;
+		}
+
+		form {
+			display: flex;
+			margin-top: 20px;
+		}
+
+		input[type=text] {
+			flex-grow: 1;
+			padding: 10px;
+			font-size: 16px;
+			border: none;
+			border-radius: 5px 0 0 5px;
+		}
+
+		button[type=submit] {
+			padding: 10px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 0 5px 5px 0;
+			background-color: #5d838b;
+			color: #ffffff;
+			cursor: pointer;
+		}
+
+		button[type=submit]:hover {
+			background-color: #0d91d5;
+		}
+		.scrollable-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+	</style>
+</head>
+<body>
+	<!-- Navigation bar -->
+	<div class="m-4">
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark ">
+		<div class="container-fluid">
+			<a href="#" class="navbar-brand">Alumni meetup</a>
+			<button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+				<div class="navbar-nav">
+					<a href="file:///F:/HTML/Group%20project/New%20folder/pro2.html" class="nav-item nav-link">Home</a>
+					<a href="#" class="nav-item nav-link active">Group Chat</a>
+					<a href="file:///F:/HTML/Group%20project/New%20folder/account%20settings.html" class="nav-item nav-link">Edit Profile</a>
+					<div class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"><i class="fa fa-bell"></i></a>
+                        <div class="dropdown-menu">
+                            <a href="#" class="dropdown-item">Inbox</a>
+                            <a href="#" class="dropdown-item">Tagged Messages</a>
+                        </div>
+                    </div>
+				</div>
+				<div class="navbar-nav">
+				
+					<a href="file:///F:/HTML/Group%20project/New%20folder/index.html" class="nav-item nav-link">Logout</a>
+				</div>
+			</div>
+		</div>
+	</nav>
+	</div>
+	<!-- Chat container -->
+	<div class="container">
+		
+		<!-- Add more messages here -->
+	</div>
+	<!-- Message input box -->
+	<div class="input-container">
+		<form>
+			<input type="text" placeholder="Type your message..." />
+			<button type="submit">Send</button>
+		</form>
+	</div>
+	<script>const container = document.querySelector(".container");
+
+const messages = [
+  {
+    name: "Anas",
+    text: "@Goutham Hey, have you seen the latest tweet from @Charlie?",
+    time: "10:30 AM"
+  },
+  {
+    name: "Gowtham",
+    text: "No, what did it say?",
+    time: "10:35 AM"
+  },
+  {
+    name: "Deepak",
+    text: "@Anas @Goutham It was about the new product launch.",
+    time: "10:40 AM"
+  },
+  {
+    name: "Anas",
+    text: "@Deepak That's exciting! When is it happening?",
+    time: "10:45 AM"
+  },
+  {
+    name: "Deepak",
+    text: "@Anas Next week on Wednesday.",
+    time: "10:50 AM"
+  }
+];
+
+// Function to create a new message element
+function createMessageElement(message) {
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message");
+
+  if (message.name === "Anas") {
+    messageElement.classList.add("sent");
+  } else {
+    messageElement.classList.add("received");
+  }
+
+  const nameElement = document.createElement("span");
+  nameElement.classList.add("name");
+  const nameLink = document.createElement("a");
+  nameLink.href = "file:///F:/HTML/Group%20project/New%20folder/ind_pro1.html?" + message.name.toLowerCase();
+  nameLink.textContent = message.name;
+  nameElement.appendChild(nameLink);
+
+  const textElement = document.createElement("span");
+  textElement.classList.add("text");
+  textElement.innerText = message.text;
+
+  const timeElement = document.createElement("span");
+  timeElement.classList.add("time");
+  timeElement.innerText = message.time;
+
+  messageElement.appendChild(nameElement);
+  messageElement.appendChild(textElement);
+  messageElement.appendChild(timeElement);
+
+  return messageElement;
+}
+
+// Function to display all messages
+function displayMessages(messages) {
+  messages.forEach((message) => {
+    const messageElement = createMessageElement(message);
+    container.appendChild(messageElement);
+  });
+}
+
+displayMessages(messages);
+
+const form = document.querySelector("form");
+const input = document.querySelector("input[type=text]");
+
+form.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (!input.value) {
+    return;
+  }
+
+  const message = {
+    name: "Anas",
+    text: input.value,
+    time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+  };
+
+  const messageElement = createMessageElement(message);
+  container.insertBefore(messageElement, container.firstChild);
+
+  // Clear the input field after sending the message
+  input.value = "";
+
+  // Scroll to the bottom of the container to show the latest message
+  container.scrollTop = container.scrollHeight;
+});
+
+
+		</script>
+		
+
+	<!-- JavaScript dependencies (Bootstrap) -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+</body>
+</html>

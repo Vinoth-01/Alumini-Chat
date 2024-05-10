@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Private Chat with Gowtham</title>
+    <title>Group Chat</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+	<style>
+          /* ... existing styles ... */
+
+
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: Arial, sans-serif;
+			background-color: #7c7c7c;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column-reverse; /* Reverse the flex-direction */
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 20px;
+			background-color: #ffffff;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+			overflow-y: auto; /* Add scroll bar when the messages overflow */
+			height: 680px; /* Set a fixed height to limit the message container */
+		}
+
+		.message {
+			margin-bottom: 10px; /* Add some margin between each message */
+			display: flex;
+			flex-direction: column;
+		}
+
+		.message .name {
+			font-weight: bold;
+			margin-right: 10px;
+			color: #000000;
+		}
+
+		.message .text {
+			margin-left: 5px;
+			color: #ffffff;
+		}
+
+		.message .time {
+			margin-left: 10px;
+			font-size: 12px;
+			color: #999;
+		}
+
+		.sent {
+			align-self: flex-end;
+			background-color: #00373b;
+			border-radius: 10px;
+			padding: 10px;
+			max-width: 60%;
+		}
+
+		.received {
+			align-self: flex-start;
+			background-color: #5f5858;
+			border-radius: 10px;
+			padding: 10px;
+			max-width: 60%;
+		}
+
+		form {
+			display: flex;
+			margin-top: 20px;
+		}
+
+		input[type=text] {
+			flex-grow: 1;
+			padding: 10px;
+			font-size: 16px;
+			border: none;
+			border-radius: 5px 0 0 5px;
+		}
+
+		button[type=submit] {
+			padding: 10px 20px;
+			font-size: 16px;
+			border: none;
+			border-radius: 0 5px 5px 0;
+			background-color: #5d838b;
+			color: #ffffff;
+			cursor: pointer;
+		}
+
+		button[type=submit]:hover {
+			background-color: #0d91d5;
+		}
+	</style>
+</head>
+<body>
+    <!-- Navagation bar to go back -->
+    <nav class="navbar navbar-light bg-dark">
+    <a class="navbar-brand" href="#" style="color: rgb(255, 255, 255)">Go Back</a>
+  </nav>
+  <br>
+	<div class="container"></div>
+
+	<form>
+		<input type="text" placeholder="Type a message...">
+		<button type="submit">Send</button>
+	</form>
+
+	<script>
+		const container = document.querySelector(".container");
+
+		const messages = [
+			{
+				name: "Anas",
+				text: "Hey, have you seen the latest tweet from ?",
+				time: "10:30 AM"
+			},
+			{
+				name: "Gowtham",
+				text: "No, what did it say?",
+				time: "10:35 AM"
+			},
+			{
+				name: "Anas",
+				text: "That's exciting! When is it happening?",
+				time: "10:45 AM"
+			},
+			{
+				name: "Gowtham",
+				text: "Yes, I'll be there. Looking forward to it!",
+				time: "10:55 AM"
+			}
+		];
+
+		// Function to create a new message element
+		function createMessageElement(message) {
+			const messageElement = document.createElement("div");
+			messageElement.classList.add("message");
+
+			if (message.name === "Anas") {
+				messageElement.classList.add("sent");
+			} else {
+				messageElement.classList.add("received");
+			}
+
+			const nameElement = document.createElement("span");
+			nameElement.classList.add("name");
+			nameElement.innerText = message.name;
+
+			const textElement = document.createElement("span");
+			textElement.classList.add("text");
+			textElement.innerText = message.text;
+
+			const timeElement = document.createElement("span");
+			timeElement.classList.add("time");
+			timeElement.innerText = message.time;
+
+			messageElement.appendChild(nameElement);
+			messageElement.appendChild(textElement);
+			messageElement.appendChild(timeElement);
+
+			return messageElement;
+		}
+
+		// Function to display all messages
+		function displayMessages(messages) {
+			messages.forEach((message) => {
+				const messageElement = createMessageElement(message);
+				container.appendChild(messageElement);
+			});
+			// Scroll to the bottom of the container to show the latest message
+			container.scrollTop = container.scrollHeight;
+		}
+
+		displayMessages(messages);
+
+		const form = document.querySelector("form");
+		const input = document.querySelector("input[type=text]");
+
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
+
+			if (!input.value) {
+				return;
+			}
+
+			const message = {
+				name: "Anas",
+				text: input.value,
+				time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+			};
+
+			const messageElement = createMessageElement(message);
+			container.appendChild(messageElement);
+
+			// Clear the input field after sending the message
+			input.value = "";
+
+			// Scroll to the bottom of the container to show the latest message
+			container.scrollTop = container.scrollHeight;
+		});
+	</script>
+</body>
+</html>
